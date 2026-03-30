@@ -30,7 +30,7 @@ mysqli_close($conn);
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { primary: '#0d6efd', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
+                    colors: { primary: '#16a34a', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
                 }
             }
         }
@@ -171,7 +171,7 @@ mysqli_close($conn);
                                                 </td>
                                                 <td class="p-4 text-right">
                                                     <div class="flex justify-end gap-2">
-                                                        <button class="p-1.5 text-gray-400 hover:text-primary transition bg-gray-50 hover:bg-blue-50 rounded"><i data-lucide="edit" class="w-4 h-4"></i></button>
+                                                        <button class="p-1.5 text-gray-400 hover:text-primary transition bg-gray-50 hover:bg-green-50 rounded"><i data-lucide="edit" class="w-4 h-4"></i></button>
                                                         <form action="../actions/delete_room_action.php" method="POST" class="inline" onsubmit="return confirm('Are you sure? This action is highly destructive and will delete associated allocations.');">
                                                             <input type="hidden" name="room_id" value="<?php echo $r['id']; ?>">
                                                             <button type="submit" class="p-1.5 text-gray-400 hover:text-danger transition bg-gray-50 hover:bg-red-50 rounded"><i data-lucide="trash-2" class="w-4 h-4"></i></button>

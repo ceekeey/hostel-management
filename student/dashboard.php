@@ -87,7 +87,7 @@ mysqli_close($conn);
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { primary: '#0d6efd', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
+                    colors: { primary: '#16a34a', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
                 }
             }
         }
@@ -188,12 +188,12 @@ mysqli_close($conn);
                             <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Application Status</p>
                             <h3 class="text-2xl font-bold text-dark"><?php echo $app_status; ?></h3>
                         </div>
-                        <div class="w-14 h-14 rounded-2xl bg-blue-50 text-primary flex items-center justify-center shadow-inner">
+                        <div class="w-14 h-14 rounded-2xl bg-green-50 text-primary flex items-center justify-center shadow-inner">
                             <i data-lucide="file-signature" class="w-7 h-7"></i>
                         </div>
                     </div>
                     <div class="mt-auto pt-5 border-t border-gray-50">
-                        <a href="apply.php" class="group text-sm font-semibold text-primary hover:text-blue-700 flex items-center gap-1.5 transition">
+                        <a href="apply.php" class="group text-sm font-semibold text-primary hover:text-green-700 flex items-center gap-1.5 transition">
                             Continue application <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
                         </a>
                     </div>

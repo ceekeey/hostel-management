@@ -43,7 +43,7 @@ unset($_SESSION['old_login']);
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0d6efd',
+                        primary: '#16a34a',
                         dark: '#212529',
                         light: '#f8f9fa',
                         success: '#198754'
@@ -154,7 +154,7 @@ unset($_SESSION['old_login']);
                 <div>
                     <div class="flex justify-between items-center mb-2">
                         <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
-                        <a href="#" class="text-sm font-medium text-primary hover:text-blue-700 hover:underline">Forgot
+                        <a href="#" class="text-sm font-medium text-primary hover:text-green-700 hover:underline">Forgot
                             password?</a>
                     </div>
                     <input type="password" name="password" id="password" required placeholder="••••••••"
@@ -162,7 +162,7 @@ unset($_SESSION['old_login']);
                 </div>
 
                 <button type="submit" name="login_btn" id="submitBtn"
-                    class="w-full flex justify-center items-center gap-2 bg-primary hover:bg-blue-700 hover:-translate-y-1 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-blue-500/30">
+                    class="w-full flex justify-center items-center gap-2 bg-primary hover:bg-green-700 hover:-translate-y-1 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-green-500/30">
                     <span>Sign In</span>
                     <!-- Spinner SVG (Hidden by default) -->
                     <svg id="btnSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
@@ -179,7 +179,7 @@ unset($_SESSION['old_login']);
             <div class="mt-8 text-center bg-gray-50 border border-gray-100 rounded-lg p-4">
                 <p class="text-sm text-gray-600">
                     Don't have an account yet?
-                    <a href="register.php" class="font-bold text-primary hover:text-blue-700 hover:underline">Create
+                    <a href="register.php" class="font-bold text-primary hover:text-green-700 hover:underline">Create
                         one</a>
                 </p>
             </div>

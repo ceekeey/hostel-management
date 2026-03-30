@@ -38,7 +38,7 @@ mysqli_close($conn);
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { primary: '#0d6efd', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
+                    colors: { primary: '#16a34a', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
                 }
             }
         }
@@ -96,7 +96,7 @@ mysqli_close($conn);
                                 </tr>
                             <?php else: ?>
                                 <?php foreach($students as $s): ?>
-                                    <tr class="hover:bg-blue-50/30 transition">
+                                    <tr class="hover:bg-green-50/30 transition">
                                         
                                         <td class="px-6 py-4">
                                             <div class="flex items-center gap-3">

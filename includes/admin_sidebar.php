@@ -20,7 +20,7 @@ $nav_items = [
         <?php foreach ($nav_items as $url => $item): ?>
             <?php 
             $isActive = ($current_page == $url);
-            $activeClass = $isActive ? 'bg-primary text-white shadow-md shadow-blue-500/20 hover:-translate-y-0.5' : 'text-gray-400 hover:bg-gray-800 hover:text-white';
+            $activeClass = $isActive ? 'bg-primary text-white shadow-md shadow-green-500/20 hover:-translate-y-0.5' : 'text-gray-400 hover:bg-gray-800 hover:text-white';
             ?>
             <a href="<?php echo $url; ?>" class="flex items-center gap-3 px-4 py-3.5 rounded-xl font-medium transition duration-200 <?php echo $activeClass; ?>">
                 <i data-lucide="<?php echo $item['icon']; ?>" class="w-5 h-5 <?php echo $isActive ? 'opacity-90' : 'opacity-80'; ?>"></i> <?php echo $item['label']; ?>
@@ -44,7 +44,7 @@ $nav_items = [
         <?php foreach ($nav_items as $url => $item): ?>
             <?php 
             $isActive = ($current_page == $url);
-            $activeClass = $isActive ? 'bg-primary text-white shadow-lg shadow-blue-500/30 font-bold' : 'text-gray-400 hover:bg-gray-800 hover:text-white font-bold';
+            $activeClass = $isActive ? 'bg-primary text-white shadow-lg shadow-green-500/30 font-bold' : 'text-gray-400 hover:bg-gray-800 hover:text-white font-bold';
             ?>
             <a href="<?php echo $url; ?>" class="flex items-center gap-4 px-5 py-4 rounded-2xl transition <?php echo $activeClass; ?>">
                 <i data-lucide="<?php echo $item['icon']; ?>" class="w-6 h-6"></i> <?php echo $item['label']; ?>

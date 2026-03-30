@@ -56,7 +56,7 @@ mysqli_close($conn);
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { primary: '#0d6efd', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
+                    colors: { primary: '#16a34a', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
                 }
             }
         }
@@ -102,31 +102,31 @@ mysqli_close($conn);
                 </div>
 
                 <!-- Digital Room Key Card -->
-                <div class="max-w-4xl bg-gradient-to-br from-[#0d6efd] to-[#0a58ca] rounded-3xl shadow-xl shadow-blue-500/20 overflow-hidden relative">
+                <div class="max-w-4xl bg-gradient-to-br from-green-600 to-green-700 rounded-3xl shadow-xl shadow-green-500/20 overflow-hidden relative">
                     <!-- Aesthetic SVG Overlays -->
                     <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
                     <div class="absolute bottom-0 left-0 -mb-4 -ml-4 w-40 h-40 bg-black/10 rounded-full blur-3xl"></div>
                     
                     <div class="relative p-8 md:p-12 md:flex justify-between items-center h-full text-white">
                         <div>
-                            <p class="text-blue-100 font-bold tracking-widest uppercase text-sm mb-2">Block Details</p>
+                            <p class="text-green-100 font-bold tracking-widest uppercase text-sm mb-2">Block Details</p>
                             <h3 class="text-5xl font-black mb-6"><?php echo htmlspecialchars($allocation['block_name']); ?></h3>
                             
                             <div class="grid grid-cols-2 gap-x-12 gap-y-6">
                                 <div>
-                                    <p class="text-blue-200 text-xs uppercase tracking-widest font-semibold mb-1">Room Number</p>
+                                    <p class="text-green-200 text-xs uppercase tracking-widest font-semibold mb-1">Room Number</p>
                                     <p class="text-2xl font-bold"><?php echo htmlspecialchars($allocation['room_number']); ?></p>
                                 </div>
                                 <div>
-                                    <p class="text-blue-200 text-xs uppercase tracking-widest font-semibold mb-1">Room Type</p>
+                                    <p class="text-green-200 text-xs uppercase tracking-widest font-semibold mb-1">Room Type</p>
                                     <p class="text-2xl font-bold"><?php echo htmlspecialchars($allocation['room_type']); ?></p>
                                 </div>
                                 <div>
-                                    <p class="text-blue-200 text-xs uppercase tracking-widest font-semibold mb-1">Allocation ID</p>
+                                    <p class="text-green-200 text-xs uppercase tracking-widest font-semibold mb-1">Allocation ID</p>
                                     <p class="text-lg font-mono">#<?php echo str_pad($allocation['id'], 6, '0', STR_PAD_LEFT); ?></p>
                                 </div>
                                 <div>
-                                    <p class="text-blue-200 text-xs uppercase tracking-widest font-semibold mb-1">Current Occupancy</p>
+                                    <p class="text-green-200 text-xs uppercase tracking-widest font-semibold mb-1">Current Occupancy</p>
                                     <p class="text-lg font-bold"><?php echo $allocation['current_occupancy'] . " / " . $allocation['capacity']; ?> Students</p>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@ mysqli_close($conn);
                                 <!-- Placeholder QR Code for 'Digital Key' -->
                                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=HostelSys-Alloc-<?php echo $allocation['id']; ?>&bgcolor=ffffff&color=212529" alt="Room QR Code" class="w-full h-full object-contain mix-blend-multiply">
                             </div>
-                            <p class="text-blue-200 text-xs font-semibold mt-4 tracking-widest uppercase text-center">Scan to verify<br>at security point</p>
+                            <p class="text-green-200 text-xs font-semibold mt-4 tracking-widest uppercase text-center">Scan to verify<br>at security point</p>
                         </div>
                     </div>
                 </div>
@@ -146,7 +146,7 @@ mysqli_close($conn);
                 <div class="max-w-4xl mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                         <div class="flex items-center gap-3 mb-4">
-                            <div class="p-2 bg-blue-50 text-primary rounded-lg"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+                            <div class="p-2 bg-green-50 text-primary rounded-lg"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
                             <h4 class="font-bold text-dark text-lg">Accommodation Policy</h4>
                         </div>
                         <ul class="space-y-3 text-sm text-gray-600">
@@ -190,7 +190,7 @@ mysqli_close($conn);
                     </p>
                     
                     <?php if (!isset($application) || $application['status'] === 'rejected'): ?>
-                        <a href="apply.php" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">
+                        <a href="apply.php" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-green-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">
                             Start Application <i data-lucide="arrow-right" class="w-5 h-5"></i>
                         </a>
                     <?php endif; ?>

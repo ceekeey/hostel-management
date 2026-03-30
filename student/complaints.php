@@ -40,7 +40,7 @@ mysqli_close($conn);
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { primary: '#0d6efd', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
+                    colors: { primary: '#16a34a', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
                 }
             }
         }
@@ -112,7 +112,7 @@ mysqli_close($conn);
                                     class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition resize-none"></textarea>
                             </div>
                             
-                            <button type="submit" id="submitBtn" class="w-full flex justify-center items-center gap-2 bg-primary hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-xl transition duration-200 shadow-md mt-2">
+                            <button type="submit" id="submitBtn" class="w-full flex justify-center items-center gap-2 bg-primary hover:bg-green-700 text-white font-bold py-3.5 px-6 rounded-xl transition duration-200 shadow-md mt-2">
                                 <i data-lucide="send" class="w-4 h-4"></i>
                                 <span>Submit Ticket</span>
                                 <svg id="btnSpinner" class="animate-spin -ml-1 text-white hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

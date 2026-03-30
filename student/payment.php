@@ -49,7 +49,7 @@ mysqli_close($conn);
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { primary: '#0d6efd', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
+                    colors: { primary: '#16a34a', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
                 }
             }
         }
@@ -156,7 +156,7 @@ mysqli_close($conn);
                             </div>
 
                             <div class="flex justify-center">
-                                <button onclick="window.print()" class="flex items-center gap-2 text-primary hover:text-blue-800 font-medium transition cursor-pointer">
+                                <button onclick="window.print()" class="flex items-center gap-2 text-primary hover:text-green-800 font-medium transition cursor-pointer">
                                     <i data-lucide="printer" class="w-5 h-5"></i> Print Receipt
                                 </button>
                             </div>
@@ -172,10 +172,10 @@ mysqli_close($conn);
                             </div>
 
                             <!-- Cart Summary -->
-                            <div class="bg-blue-50/50 rounded-xl p-6 border border-blue-100 mb-8">
+                            <div class="bg-green-50/50 rounded-xl p-6 border border-green-100 mb-8">
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-blue-100 flex items-center justify-center text-primary">
+                                        <div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-green-100 flex items-center justify-center text-primary">
                                             <i data-lucide="bed-double" class="w-6 h-6"></i>
                                         </div>
                                         <div>

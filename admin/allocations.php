@@ -47,7 +47,7 @@ mysqli_close($conn);
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { primary: '#0d6efd', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
+                    colors: { primary: '#16a34a', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
                 }
             }
         }
@@ -125,7 +125,7 @@ mysqli_close($conn);
                             <div class="bg-white rounded-2xl animate__animated animate__fadeInUp shadow-sm border border-gray-100 p-6 flex flex-col hover:shadow-md transition">
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-12 h-12 rounded-full bg-blue-50 text-primary flex items-center justify-center font-bold text-lg">
+                                        <div class="w-12 h-12 rounded-full bg-green-50 text-primary flex items-center justify-center font-bold text-lg">
                                             <?php echo strtoupper(substr($app['fullname'], 0, 1)); ?>
                                         </div>
                                         <div>
@@ -171,7 +171,7 @@ mysqli_close($conn);
                                                 $match = ($r['block_name'] == $app['preferred_block'] && $r['room_type'] == $app['room_type']);
                                                 $lbl = "{$r['block_name']} - Rm {$r['room_number']} ({$r['room_type']} : {$r['current_occupancy']}/{$r['capacity']})";
                                                 if($match) {
-                                                    echo "<option value='{$r['id']}' class='bg-blue-50 text-primary font-bold'>★ MATCH: {$lbl}</option>";
+                                                    echo "<option value='{$r['id']}' class='bg-green-50 text-primary font-bold'>★ MATCH: {$lbl}</option>";
                                                 } else {
                                                     echo "<option value='{$r['id']}'>{$lbl}</option>";
                                                 }
@@ -180,7 +180,7 @@ mysqli_close($conn);
                                         </select>
                                         
                                         <!-- Actions -->
-                                        <button type="submit" name="action_approve" value="1" <?php if(empty($available_rooms)) echo 'disabled'; ?> class="p-3 bg-primary hover:bg-blue-700 text-white rounded-xl shadow-md transition disabled:opacity-50 flex items-center justify-center shrink-0" title="Approve & Allocate">
+                                        <button type="submit" name="action_approve" value="1" <?php if(empty($available_rooms)) echo 'disabled'; ?> class="p-3 bg-primary hover:bg-green-700 text-white rounded-xl shadow-md transition disabled:opacity-50 flex items-center justify-center shrink-0" title="Approve & Allocate">
                                             <i data-lucide="check" class="w-5 h-5"></i>
                                         </button>
                                         

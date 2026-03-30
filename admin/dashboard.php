@@ -49,7 +49,7 @@ mysqli_close($conn);
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { primary: '#0d6efd', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
+                    colors: { primary: '#16a34a', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
                 }
             }
         }
@@ -93,7 +93,7 @@ mysqli_close($conn);
                         <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Total Students</p>
                         <h3 class="text-3xl font-black text-dark"><?php echo number_format($total_students); ?></h3>
                     </div>
-                    <div class="w-12 h-12 bg-blue-50 text-primary rounded-xl flex items-center justify-center shadow-inner">
+                    <div class="w-12 h-12 bg-green-50 text-primary rounded-xl flex items-center justify-center shadow-inner">
                         <i data-lucide="users" class="w-6 h-6"></i>
                     </div>
                 </div>
@@ -146,7 +146,7 @@ mysqli_close($conn);
                         <h3 class="font-bold text-dark text-lg mb-6">Quick Actions</h3>
                         
                         <div class="space-y-4">
-                            <a href="manage_rooms.php" class="block w-full text-left p-4 rounded-xl border border-gray-100 hover:border-primary/30 hover:bg-blue-50/50 transition group">
+                            <a href="manage_rooms.php" class="block w-full text-left p-4 rounded-xl border border-gray-100 hover:border-primary/30 hover:bg-green-50/50 transition group">
                                 <div class="flex items-center gap-3 mb-1">
                                     <i data-lucide="plus-square" class="w-5 h-5 text-primary group-hover:scale-110 transition shrink-0"></i>
                                     <span class="font-bold text-dark text-sm">Add New Hostel Room</span>
@@ -170,7 +170,7 @@ mysqli_close($conn);
                     <div class="bg-white rounded-2xl animate__animated animate__fadeInUp animate__delay-5s shadow-sm border border-gray-100 overflow-hidden">
                         <div class="p-6 border-b border-gray-100 flex justify-between items-center">
                             <h3 class="font-bold text-dark text-lg">Recent Support Tickets</h3>
-                            <button class="text-xs font-bold text-primary bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition">View All</button>
+                            <button class="text-xs font-bold text-primary bg-green-50 px-3 py-1.5 rounded-lg hover:bg-green-100 transition">View All</button>
                         </div>
                         
                         <div class="divide-y divide-gray-50">

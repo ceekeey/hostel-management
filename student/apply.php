@@ -52,7 +52,7 @@ mysqli_close($conn);
             theme: {
                 extend: {
                     fontFamily: { sans: ['Poppins', 'sans-serif'] },
-                    colors: { primary: '#0d6efd', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
+                    colors: { primary: '#16a34a', dark: '#212529', light: '#f8f9fa', success: '#198754', warning: '#ffc107', danger: '#dc3545' }
                 }
             }
         }
@@ -139,7 +139,7 @@ mysqli_close($conn);
                         </p>
                         
                         <?php if($existing_app['status'] == 'approved'): ?>
-                            <a href="my_room.php" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">
+                            <a href="my_room.php" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-green-700 text-white font-bold py-3 px-8 rounded-xl transition shadow-md">
                                 View Allocation <i data-lucide="arrow-right" class="w-5 h-5"></i>
                             </a>
                         <?php endif; ?>
@@ -179,7 +179,7 @@ mysqli_close($conn);
                             </div>
 
                             <!-- Read-only consent block -->
-                            <div class="bg-blue-50/50 rounded-xl p-5 border border-blue-100 mb-8 flex gap-4">
+                            <div class="bg-green-50/50 rounded-xl p-5 border border-green-100 mb-8 flex gap-4">
                                 <div class="text-primary mt-0.5"><i data-lucide="info" class="w-5 h-5"></i></div>
                                 <div>
                                     <h4 class="text-sm font-bold text-dark mb-1">Terms of Application</h4>
@@ -188,7 +188,7 @@ mysqli_close($conn);
                             </div>
 
                             <div class="flex justify-end">
-                                <button type="submit" id="submitBtn" class="flex justify-center items-center gap-2 bg-primary hover:bg-blue-700 text-white font-bold py-3.5 px-8 rounded-xl transition duration-200 shadow-md hover:-translate-y-0.5 w-full md:w-auto">
+                                <button type="submit" id="submitBtn" class="flex justify-center items-center gap-2 bg-primary hover:bg-green-700 text-white font-bold py-3.5 px-8 rounded-xl transition duration-200 shadow-md hover:-translate-y-0.5 w-full md:w-auto">
                                     <span>Submit Application</span>
                                     <svg id="btnSpinner" class="animate-spin -ml-1 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

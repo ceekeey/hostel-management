@@ -39,7 +39,7 @@ unset($_SESSION['old']);
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0d6efd',
+                        primary: '#16a34a',
                         dark: '#212529',
                         light: '#f8f9fa',
                         success: '#198754'
@@ -161,7 +161,7 @@ unset($_SESSION['old']);
                 </div>
                 
                 <button type="submit" name="register_btn" id="submitBtn" 
-                    class="w-full flex justify-center items-center gap-2 bg-primary hover:bg-blue-700 hover:-translate-y-1 text-white font-bold py-3 px-4 rounded-lg mt-2 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-blue-500/30">
+                    class="w-full flex justify-center items-center gap-2 bg-primary hover:bg-green-700 hover:-translate-y-1 text-white font-bold py-3 px-4 rounded-lg mt-2 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-green-500/30">
                     <span>Create Account</span>
                     <!-- Spinner SVG (Hidden by default) -->
                     <svg id="btnSpinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -174,7 +174,7 @@ unset($_SESSION['old']);
             <div class="mt-8 text-center bg-gray-50 border border-gray-100 rounded-lg p-4">
                 <p class="text-sm text-gray-600">
                     Already have an account? 
-                    <a href="login.php" class="font-bold text-primary hover:text-blue-700 hover:underline">Log in</a>
+                    <a href="login.php" class="font-bold text-primary hover:text-green-700 hover:underline">Log in</a>
                 </p>
             </div>
             
