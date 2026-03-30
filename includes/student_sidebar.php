@@ -6,6 +6,7 @@ $nav_items = [
     'my_room.php' => ['icon' => 'door-open', 'label' => 'Allocation'],
     'payment.php' => ['icon' => 'credit-card', 'label' => 'Payments'],
     'complaints.php' => ['icon' => 'message-square-warning', 'label' => 'Support'],
+    'settings.php' => ['icon' => 'settings', 'label' => 'Settings'],
 ];
 ?>
 <!-- Sidebar Overlay (Mobile) -->

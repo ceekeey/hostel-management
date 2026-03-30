@@ -291,9 +291,13 @@ mysqli_close($conn);
                                     </span>
                                 </div>
                                 <h4 class="font-bold text-dark mb-2"><?php echo htmlspecialchars($a['title']); ?></h4>
-                                <p class="text-sm text-gray-500 leading-relaxed font-medium">
+                                <p class="text-sm text-gray-500 leading-relaxed font-medium mb-4 line-clamp-2">
                                     <?php echo nl2br(htmlspecialchars($a['content'])); ?>
                                 </p>
+                                <button onclick="showAnnouncement('<?php echo addslashes($a['title']); ?>', '<?php echo addslashes(nl2br($a['content'])); ?>', '<?php echo $a['priority']; ?>', '<?php echo date('M d, Y', strtotime($a['created_at'])); ?>')" 
+                                    class="text-xs font-bold <?php echo $iconColor; ?> hover:underline flex items-center gap-1">
+                                    Read Full Notice <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                                </button>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -306,27 +310,39 @@ mysqli_close($conn);
                     <h3 class="font-bold text-lg text-dark flex items-center gap-2">
                         <i data-lucide="user" class="w-5 h-5 text-gray-400"></i> Profile Information
                     </h3>
-                    <a href="update_profile.php" class="text-sm font-semibold text-primary hover:underline">Edit Details</a>
+                    <a href="settings.php" class="text-sm font-semibold text-primary hover:underline">Manage Account</a>
                 </div>
                 <div class="p-8">
-                    <dl class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="hover:translate-x-2 transition p-2 hover:bg-gray-50 rounded-lg">
-                            <dt class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Full Name</dt>
-                            <dd class="text-base text-dark font-medium"><?php echo htmlspecialchars($student['fullname']); ?></dd>
+                    <div class="flex flex-col md:flex-row gap-8 items-center md:items-start">
+                        <!-- Profile Pic Display -->
+                        <div class="w-24 h-24 rounded-2xl bg-gray-100 border-2 border-white shadow-sm overflow-hidden flex-shrink-0">
+                            <?php if(!empty($student['profile_pic'])): ?>
+                                <img src="../public/uploads/profiles/<?php echo $student['profile_pic']; ?>" class="w-full h-full object-cover">
+                            <?php else: ?>
+                                <div class="w-full h-full bg-primary/10 text-primary flex items-center justify-center font-bold text-3xl">
+                                    <?php echo strtoupper(substr($student['fullname'], 0, 1)); ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                        <div class="hover:translate-x-2 transition p-2 hover:bg-gray-50 rounded-lg">
-                            <dt class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Email Address</dt>
-                            <dd class="text-base text-dark font-medium"><?php echo htmlspecialchars($student['email']); ?></dd>
-                        </div>
-                        <div class="hover:translate-x-2 transition p-2 hover:bg-gray-50 rounded-lg">
-                            <dt class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Faculty</dt>
-                            <dd class="text-base text-dark font-medium"><?php echo htmlspecialchars($student['faculty']); ?></dd>
-                        </div>
-                        <div class="hover:translate-x-2 transition p-2 hover:bg-gray-50 rounded-lg">
-                            <dt class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Department</dt>
-                            <dd class="text-base text-dark font-medium"><?php echo htmlspecialchars($student['department']); ?></dd>
-                        </div>
-                    </dl>
+                        <dl class="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <div class="hover:translate-x-2 transition p-2 hover:bg-gray-50 rounded-lg">
+                                <dt class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Full Name</dt>
+                                <dd class="text-base text-dark font-medium"><?php echo htmlspecialchars($student['fullname']); ?></dd>
+                            </div>
+                            <div class="hover:translate-x-2 transition p-2 hover:bg-gray-50 rounded-lg">
+                                <dt class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Email Address</dt>
+                                <dd class="text-base text-dark font-medium"><?php echo htmlspecialchars($student['email']); ?></dd>
+                            </div>
+                            <div class="hover:translate-x-2 transition p-2 hover:bg-gray-50 rounded-lg">
+                                <dt class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Faculty</dt>
+                                <dd class="text-base text-dark font-medium"><?php echo htmlspecialchars($student['faculty']); ?></dd>
+                            </div>
+                            <div class="hover:translate-x-2 transition p-2 hover:bg-gray-50 rounded-lg">
+                                <dt class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Department</dt>
+                                <dd class="text-base text-dark font-medium"><?php echo htmlspecialchars($student['department']); ?></dd>
+                            </div>
+                        </dl>
+                    </div>
                 </div>
             </div>
 
@@ -334,9 +350,28 @@ mysqli_close($conn);
     </main>
 
     <!-- UI Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // Initialize Lucide Icons
         lucide.createIcons();
+
+        // Show Announcement Modal
+        function showAnnouncement(title, content, priority, date) {
+            let iconColor = '#16a34a'; // Green
+            if(priority === 'High') iconColor = '#dc3545'; // Red
+            if(priority === 'Medium') iconColor = '#ffc107'; // Yellow
+
+            Swal.fire({
+                title: `<div class="text-left"><p class="text-[10px] font-black uppercase tracking-widest mb-1" style="color: ${iconColor}">${priority} NOTICE • ${date}</p><h2 class="text-2xl font-bold text-dark">${title}</h2></div>`,
+                html: `<div class="text-left py-4 text-gray-600 leading-relaxed font-medium">${content}</div>`,
+                confirmButtonText: 'Understood',
+                confirmButtonColor: '#212529',
+                padding: '2rem',
+                width: '600px',
+                showClass: { popup: 'animate__animated animate__zoomIn animate__faster' },
+                hideClass: { popup: 'animate__animated animate__zoomOut animate__faster' }
+            });
+        }
 
         // Page Loader Logic
         window.addEventListener('load', () => {
