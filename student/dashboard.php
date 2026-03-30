@@ -65,6 +65,16 @@ $payment = mysqli_fetch_assoc($pay_res);
 $payment_text = $payment ? ucfirst($payment['status']) : "Unpaid";
 $payment_class = ($payment_text == 'Paid') ? 'text-success' : 'text-danger';
 
+// --- Announcements Query (1 Week Expiry) ---
+$news_sql = "SELECT * FROM announcements WHERE created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY) ORDER BY created_at DESC";
+$news_res = mysqli_query($conn, $news_sql);
+$news = [];
+if($news_res) {
+    while($row = mysqli_fetch_assoc($news_res)) {
+        $news[] = $row;
+    }
+}
+
 mysqli_close($conn);
 ?>
 <!DOCTYPE html>
@@ -233,6 +243,61 @@ mysqli_close($conn);
                     </div>
                 </div>
 
+            </div>
+
+            <!-- Latest Announcements (Dynamic News) -->
+            <div class="mb-10 animate__animated animate__fadeInUp animate__delay-3s">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-dark flex items-center gap-2">
+                        <i data-lucide="megaphone" class="w-5 h-5 text-primary"></i> Latest News
+                    </h3>
+                    <span class="text-xs font-bold text-gray-400 bg-gray-100 px-3 py-1 rounded-full uppercase tracking-widest">Last 7 Days</span>
+                </div>
+
+                <?php if(empty($news)): ?>
+                    <div class="bg-white rounded-2xl p-10 border border-dashed border-gray-200 text-center">
+                        <i data-lucide="bell-off" class="w-10 h-10 text-gray-300 mx-auto mb-3"></i>
+                        <p class="text-gray-400 font-medium italic">No new announcements at this time.</p>
+                    </div>
+                <?php else: ?>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <?php foreach($news as $a): ?>
+                            <?php 
+                                $border = 'border-gray-100';
+                                $bg = 'bg-white';
+                                $iconColor = 'text-primary';
+                                if($a['priority'] == 'High') {
+                                    $border = 'border-danger/30';
+                                    $bg = 'bg-red-50/30';
+                                    $iconColor = 'text-danger';
+                                } elseif ($a['priority'] == 'Medium') {
+                                    $border = 'border-warning/30';
+                                    $bg = 'bg-yellow-50/30';
+                                    $iconColor = 'text-warning';
+                                }
+                            ?>
+                            <div class="<?php echo $bg; ?> border <?php echo $border; ?> rounded-2xl p-6 shadow-sm hover:shadow-md transition duration-300">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center <?php echo $iconColor; ?>">
+                                            <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                                        </div>
+                                        <span class="text-[10px] font-black uppercase tracking-widest <?php echo $iconColor; ?>">
+                                            <?php echo $a['priority']; ?> Notice
+                                        </span>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+                                        <?php echo date('M d, Y', strtotime($a['created_at'])); ?>
+                                    </span>
+                                </div>
+                                <h4 class="font-bold text-dark mb-2"><?php echo htmlspecialchars($a['title']); ?></h4>
+                                <p class="text-sm text-gray-500 leading-relaxed font-medium">
+                                    <?php echo nl2br(htmlspecialchars($a['content'])); ?>
+                                </p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <!-- Profile Overview (Database Connected UI) -->

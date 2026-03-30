@@ -171,6 +171,9 @@ mysqli_close($conn);
                                                 </td>
                                                 <td class="p-4 text-right">
                                                     <div class="flex justify-end gap-2">
+                                                        <a href="room_inventory.php?room_id=<?php echo $r['id']; ?>" class="p-1.5 text-gray-400 hover:text-primary transition bg-gray-50 hover:bg-green-50 rounded" title="Manage Inventory">
+                                                            <i data-lucide="briefcase" class="w-4 h-4"></i>
+                                                        </a>
                                                         <button class="p-1.5 text-gray-400 hover:text-primary transition bg-gray-50 hover:bg-green-50 rounded"><i data-lucide="edit" class="w-4 h-4"></i></button>
                                                         <form action="../actions/delete_room_action.php" method="POST" class="inline" onsubmit="return confirm('Are you sure? This action is highly destructive and will delete associated allocations.');">
                                                             <input type="hidden" name="room_id" value="<?php echo $r['id']; ?>">

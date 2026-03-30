@@ -5,6 +5,8 @@ $nav_items = [
     'manage_rooms.php' => ['icon' => 'door-open', 'label' => 'Manage Rooms'],
     'manage_students.php' => ['icon' => 'users', 'label' => 'Manage Students'],
     'allocations.php' => ['icon' => 'arrow-right-left', 'label' => 'Allocations'],
+    'inventory.php' => ['icon' => 'packages', 'label' => 'Inventory'],
+    'announcements.php' => ['icon' => 'megaphone', 'label' => 'Announcements'],
 ];
 ?>
 <!-- Sidebar Overlay (Mobile) -->

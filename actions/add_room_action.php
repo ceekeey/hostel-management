@@ -40,7 +40,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_stmt_prepare($stmt, $insert_sql)) {
         mysqli_stmt_bind_param($stmt, "ssis", $block_name, $room_number, $capacity, $room_type);
         if (mysqli_stmt_execute($stmt)) {
-            $_SESSION['success'] = "Room $room_number securely added to $block_name!";
+            $room_id = mysqli_insert_id($conn);
+            
+            // Auto-assign beds based on capacity
+            $bed_sql = "SELECT id FROM inventory WHERE item_name = 'Single Bed' LIMIT 1";
+            $bed_res = mysqli_query($conn, $bed_sql);
+            if ($bed_row = mysqli_fetch_assoc($bed_res)) {
+                $bed_item_id = $bed_row['id'];
+                $assign_sql = "INSERT INTO room_inventory (room_id, item_id, quantity, condition_status) VALUES ($room_id, $bed_item_id, $capacity, 'Good')";
+                mysqli_query($conn, $assign_sql);
+            }
+            
+            $_SESSION['success'] = "Room $room_number securely added to $block_name with $capacity beds auto-assigned!";
         } else {
             $_SESSION['error'] = "Database write collision.";
         }
