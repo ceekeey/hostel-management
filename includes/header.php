@@ -4,7 +4,12 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 // Function to get base URL gracefully
-$base_url = '/hostel';
+// Use global base URL from config if available, otherwise fallback
+if(!defined('BASE_URL')) {
+    $base_url = '/hostel';
+} else {
+    $base_url = BASE_URL;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,12 +67,12 @@ $base_url = '/hostel';
                         <i data-lucide="home" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform"></i>
                         Home
                     </a>
-                    <a href="#"
+                    <a href="https://gsu.edu.ng/home/"
                         class="group flex items-center gap-1.5 text-dark hover:text-primary font-medium transition-all duration-300">
                         <i data-lucide="globe" class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform"></i>
                         Main Website
                     </a>
-                    <a href="<?php echo $base_url; ?>/student/dashboard.php"
+                    <a href="https://student.portal.gsu.edu.ng/login"
                         class="group flex items-center gap-1.5 text-dark hover:text-primary font-medium transition-all duration-300">
                         <i data-lucide="graduation-cap"
                             class="w-4 h-4 group-hover:-translate-y-0.5 transition-transform"></i> Student Portal

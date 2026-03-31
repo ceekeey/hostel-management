@@ -7,13 +7,14 @@ require_once '../config/database.php';
 // Fetch all students and left join with their active allocation
 $students_sql = "
     SELECT u.id, u.fullname, u.email, u.phone, u.faculty, u.department, u.profile_completed, u.created_at,
-           a.status as allocation_status, r.block_name, r.room_number 
+           a.status as allocation_status, r.block_name, r.room_number,
+           (SELECT status FROM payments WHERE student_id = u.id AND status = 'paid' LIMIT 1) as payment_status
     FROM users u 
     LEFT JOIN allocations a ON u.id = a.student_id AND a.status = 'active'
     LEFT JOIN rooms r ON a.room_id = r.id
     WHERE u.role = 'student' 
     ORDER BY u.created_at DESC
-";
+" ;
 $students_res = mysqli_query($conn, $students_sql);
 
 $students = [];
@@ -86,7 +87,9 @@ mysqli_close($conn);
                                 <th class="px-6 py-4 font-bold">Contact</th>
                                 <th class="px-6 py-4 font-bold">Academic Detail</th>
                                 <th class="px-6 py-4 font-bold">Hostel Status</th>
+                                <th class="px-6 py-4 font-bold">Payment</th>
                                 <th class="px-6 py-4 font-bold">Joined</th>
+                                <th class="px-6 py-4 font-bold text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-50">
@@ -139,8 +142,27 @@ mysqli_close($conn);
                                             <?php endif; ?>
                                         </td>
 
+                                        <td class="px-6 py-4">
+                                            <?php if($s['payment_status'] === 'paid'): ?>
+                                                <span class="inline-flex items-center gap-1.5 bg-green-50 text-green-700 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border border-green-100">
+                                                    <i data-lucide="check" class="w-3 h-3"></i> Paid
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="inline-flex items-center gap-1.5 bg-red-50 text-red-600 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border border-red-100 italic">
+                                                    <i data-lucide="x" class="w-3 h-3"></i> Unpaid
+                                                </span>
+                                            <?php endif; ?>
+                                        </td>
+
                                         <td class="px-6 py-4 text-xs font-medium text-gray-500">
                                             <?php echo date('M j, Y', strtotime($s['created_at'])); ?>
+                                        </td>
+
+                                        <td class="px-6 py-4 text-center">
+                                            <a href="view_student.php?id=<?php echo $s['id']; ?>" class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-md hover:shadow-lg active:scale-95">
+                                                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+                                                View Profile
+                                            </a>
                                         </td>
 
                                     </tr>

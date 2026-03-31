@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 30, 2026 at 05:47 AM
+-- Generation Time: Apr 01, 2026 at 01:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -203,7 +203,8 @@ CREATE TABLE `room_inventory` (
 --
 
 INSERT INTO `room_inventory` (`id`, `room_id`, `item_id`, `quantity`, `condition_status`, `updated_at`) VALUES
-(1, 2, 1, 4, 'Good', '2026-03-30 03:16:50');
+(1, 2, 1, 4, 'Good', '2026-03-30 03:16:50'),
+(3, 2, 3, 4, 'Good', '2026-03-31 23:46:55');
 
 -- --------------------------------------------------------
 
@@ -232,7 +233,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `fullname`, `email`, `phone`, `faculty`, `department`, `profile_pic`, `profile_completed`, `password`, `role`, `created_at`) VALUES
 (1, 'Super Admin', 'admin@hostel.com', NULL, NULL, NULL, NULL, 1, '$2y$10$2CZThEOrdCd5jJeQzI99oeqF8P7813dC4lOoumbEC6QKLhyahrlba', 'admin', '2026-03-28 16:02:03'),
 (2, 'John Doe', 'student@hostel.com', NULL, NULL, NULL, NULL, 0, '$2y$10$gUplOwpanQhPUOL0389Ol.rbVlz5W.AvSR2k/1MpT8864Bl4Uv76S', 'student', '2026-03-28 16:02:03'),
-(3, 'Isah abdulhameed haruna', 'isahceekeey@gmail.com', '+2348137684638', 'Engineering', 'sci education', NULL, 1, '$2y$10$qfbIq/Cuz/IuP82WN0yEGOyZmsA/XDwZzCP/kfEXX6OZy2NdJT8pa', 'student', '2026-03-28 16:29:41');
+(3, 'Isah abdulhameed haruna', 'isahceekeey@gmail.com', '+2348137684638', 'Engineering', 'sci education', '1774999638_Screenshot from 2025-12-30 22-22-06.png', 1, '$2y$10$qfbIq/Cuz/IuP82WN0yEGOyZmsA/XDwZzCP/kfEXX6OZy2NdJT8pa', 'student', '2026-03-28 16:29:41'),
+(4, 'Test Student', 'test@student.com', '1234567890', NULL, NULL, NULL, 0, '$2y$10$WV7Mf9OtWKNAgcIzoT7SUexXTnQaCE8QgFd8TM.OOm2Jku6IilJQi', 'student', '2026-03-31 23:27:42');
 
 --
 -- Indexes for dumped tables
@@ -346,19 +348,19 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `room_inventory`
 --
 ALTER TABLE `room_inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

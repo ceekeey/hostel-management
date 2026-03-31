@@ -12,7 +12,10 @@ require_once '../config/database.php';
 $user_id = $_SESSION['user_id'];
 
 // 1. Check if they have an active allocation to attach the payment to
-$alloc_sql = "SELECT id, room_id FROM allocations WHERE student_id = ? AND status = 'active' LIMIT 1";
+$alloc_sql = "SELECT a.id, a.room_id, r.room_number, r.block_name, r.room_type 
+              FROM allocations a 
+              JOIN rooms r ON a.room_id = r.id 
+              WHERE a.student_id = ? AND a.status = 'active' LIMIT 1";
 $stmt = mysqli_stmt_init($conn);
 mysqli_stmt_prepare($stmt, $alloc_sql);
 mysqli_stmt_bind_param($stmt, "i", $user_id);
@@ -56,6 +59,7 @@ mysqli_close($conn);
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="bg-gray-50 font-sans text-dark flex h-screen overflow-hidden antialiased">
 
@@ -121,43 +125,93 @@ mysqli_close($conn);
                     <?php if ($payment && $payment['status'] === 'paid'): ?>
                         
                         <!-- Official Paid Invoice -->
-                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12">
-                            <div class="flex justify-between items-start border-b border-gray-100 pb-8 mb-8">
-                                <div>
-                                    <h2 class="text-3xl font-bold text-dark mb-1">Official Receipt</h2>
-                                    <p class="text-gray-400 font-mono text-sm">REF: <?php echo htmlspecialchars($payment['reference_code']); ?></p>
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12" id="receipt-container">
+                            <!-- Receipt Content for PDF -->
+                            <div id="receipt-content" class="bg-white p-4">
+                                <!-- Header -->
+                                <div class="flex justify-between items-start border-b-2 border-gray-100 pb-8 mb-8">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 bg-primary flex items-center justify-center rounded-xl text-white">
+                                            <i data-lucide="building-2" class="w-7 h-7"></i>
+                                        </div>
+                                        <div>
+                                            <h2 class="text-2xl font-black text-dark tracking-tighter uppercase">Hostel<span class="text-primary">Sys</span></h2>
+                                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-none">Official Payment Receipt</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="px-4 py-1.5 bg-green-500 text-white rounded-lg inline-flex items-center gap-2 mb-2">
+                                            <i data-lucide="check-circle" class="w-4 h-4"></i>
+                                            <span class="text-xs font-black uppercase tracking-wider">Verified Paid</span>
+                                        </div>
+                                        <p class="text-[10px] text-gray-400 font-mono tracking-tighter">ID: <?php echo date('Ymd'); ?>-<?php echo str_pad($payment['id'], 5, '0', STR_PAD_LEFT); ?></p>
+                                    </div>
                                 </div>
-                                <div class="px-4 py-2 bg-success/10 text-success rounded-full flex items-center gap-2 mt-2">
-                                    <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
-                                    <span class="text-sm font-bold tracking-wide uppercase">Paid in Full</span>
+
+                                <!-- Body -->
+                                <div class="grid grid-cols-2 gap-12 mb-10">
+                                    <div>
+                                        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-black mb-3 border-l-4 border-primary pl-2">Payer Information</p>
+                                        <h3 class="text-lg font-bold text-dark leading-tight"><?php echo htmlspecialchars($_SESSION['fullname']); ?></h3>
+                                        <p class="text-sm text-gray-500 font-medium"><?php echo htmlspecialchars($_SESSION['email']); ?></p>
+                                        <p class="text-xs text-gray-400 mt-2 italic font-semibold">Allocated Room: <span class="text-dark not-italic"><?php echo htmlspecialchars($allocation['block_name']); ?> - Room <?php echo htmlspecialchars($allocation['room_number']); ?></span></p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-black mb-3 border-r-4 border-gray-200 pr-2">Transaction Details</p>
+                                        <p class="text-sm font-bold text-dark">Ref: <span class="font-mono text-primary"><?php echo htmlspecialchars($payment['reference_code']); ?></span></p>
+                                        <p class="text-sm text-gray-500 font-medium">Date: <?php echo date('d M, Y', strtotime($payment['paid_at'])); ?></p>
+                                        <p class="text-sm text-gray-500 font-medium">Method: <?php echo htmlspecialchars($payment['payment_method']); ?></p>
+                                    </div>
+                                </div>
+
+                                <!-- Table -->
+                                <div class="overflow-hidden rounded-2xl border border-gray-100 mb-10 shadow-sm">
+                                    <table class="w-full text-left border-collapse">
+                                        <thead>
+                                            <tr class="bg-gray-50">
+                                                <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Description</th>
+                                                <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-400 text-right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-50 uppercase text-xs font-bold text-gray-600 tracking-tight">
+                                            <tr>
+                                                <td class="px-6 py-5">
+                                                    Annual Hostel Maintenance & Accommodation Fee
+                                                    <p class="text-[10px] text-primary mt-1 font-black leading-none">Session: 2025 / 2026 Academic Period</p>
+                                                </td>
+                                                <td class="px-6 py-5 text-right font-mono text-dark">₦<?php echo number_format($payment['amount'], 2); ?></td>
+                                            </tr>
+                                            <tr class="bg-green-50/30">
+                                                <td class="px-6 py-6 text-right font-black text-gray-500 uppercase tracking-widest">Total Paid</td>
+                                                <td class="px-6 py-6 text-right text-2xl font-black text-primary font-mono tracking-tighter">₦<?php echo number_format($payment['amount'], 2); ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Footer Note -->
+                                <div class="flex justify-between items-end">
+                                    <div class="max-w-[250px]">
+                                        <p class="text-[9px] text-gray-400 font-bold uppercase leading-relaxed mb-4 italic"> This is an electronically generated receipt. No physical signature is required for validity. Please keep this for your records.</p>
+                                        <div class="w-20 h-20 border-2 border-gray-100 rounded-xl flex items-center justify-center bg-gray-50 group">
+                                            <i data-lucide="qr-code" class="w-12 h-12 text-gray-200 group-hover:text-primary transition-colors"></i>
+                                        </div>
+                                    </div>
+                                    <div class="text-right flex flex-col items-end">
+                                        <div class="w-32 h-1 bg-gray-100 rounded-full mb-2"></div>
+                                        <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Bursar's Office</p>
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=<?php echo urlencode($payment['reference_code']); ?>" alt="QR" class="mt-4 opacity-70 contrast-125">
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-8 mb-10">
-                                <div>
-                                    <p class="text-gray-400 text-xs uppercase tracking-widest font-bold mb-1">Billed To</p>
-                                    <p class="text-dark font-medium"><?php echo htmlspecialchars($_SESSION['fullname']); ?></p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-400 text-xs uppercase tracking-widest font-bold mb-1">Date Paid</p>
-                                    <p class="text-dark font-medium"><?php echo date('F j, Y', strtotime($payment['paid_at'])); ?></p>
-                                </div>
-                            </div>
-
-                            <div class="bg-gray-50 rounded-xl p-6 border border-gray-100 mb-8">
-                                <div class="flex justify-between items-center py-2 border-b border-gray-200 mb-4 pb-4">
-                                    <p class="font-semibold text-gray-700">Hostel Allocation Fee (Annual)</p>
-                                    <p class="font-bold text-dark font-mono">₦<?php echo number_format($payment['amount'], 2); ?></p>
-                                </div>
-                                <div class="flex justify-between items-center py-2">
-                                    <p class="font-bold text-gray-500">Total Paid</p>
-                                    <p class="text-2xl font-black text-success font-mono">₦<?php echo number_format($payment['amount'], 2); ?></p>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-center">
-                                <button onclick="window.print()" class="flex items-center gap-2 text-primary hover:text-green-800 font-medium transition cursor-pointer">
-                                    <i data-lucide="printer" class="w-5 h-5"></i> Print Receipt
+                            <!-- Actions -->
+                            <div class="flex justify-center flex-wrap gap-4 mt-12 pt-8 border-t border-gray-100 no-print">
+                                <button onclick="window.print()" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-dark font-bold py-3 px-8 rounded-xl transition cursor-pointer">
+                                    <i data-lucide="printer" class="w-5 h-5"></i> Print
+                                </button>
+                                <button onclick="downloadReceipt()" class="flex items-center gap-2 bg-primary hover:bg-green-700 text-white font-bold py-3 px-8 rounded-xl transition cursor-pointer shadow-lg shadow-primary/20">
+                                    <i data-lucide="download" class="w-5 h-5"></i> Download PDF
                                 </button>
                             </div>
                         </div>
@@ -225,6 +279,20 @@ mysqli_close($conn);
         document.addEventListener("DOMContentLoaded", () => {
             <?php echo $alertScript; ?>
         });
+
+        function downloadReceipt() {
+            const element = document.getElementById('receipt-content');
+            const opt = {
+                margin:       [10, 10, 10, 10],
+                filename:     'Hostel_Receipt_<?php echo $payment['reference_code']; ?>.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // New Promise-based usage:
+            html2pdf().set(opt).from(element).save();
+        }
 
         // Safe Loading Spinner Logic
         const form = document.getElementById('payForm');

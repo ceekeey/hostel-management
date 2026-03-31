@@ -4,8 +4,17 @@ require_role('admin');
 
 require_once '../config/database.php';
 
-// Fetch all rooms
-$rooms_sql = "SELECT * FROM rooms ORDER BY block_name ASC, room_number ASC";
+// 1. Fetch all rooms joined with their current inventory assets (summary)
+$rooms_sql = "
+    SELECT r.*, 
+           GROUP_CONCAT(CONCAT(i.item_name, ' x', ri.quantity) SEPARATOR ', ') as asset_summary,
+           (SELECT COUNT(*) FROM room_inventory WHERE room_id = r.id) as total_asset_types
+    FROM rooms r 
+    LEFT JOIN room_inventory ri ON r.id = ri.room_id 
+    LEFT JOIN inventory i ON ri.item_id = i.id 
+    GROUP BY r.id
+    ORDER BY r.block_name ASC, r.room_number ASC
+";
 $rooms_res = mysqli_query($conn, $rooms_sql);
 
 $rooms = [];
@@ -13,6 +22,14 @@ if($rooms_res) {
     while($row = mysqli_fetch_assoc($rooms_res)) {
         $rooms[] = $row;
     }
+}
+
+// 2. Fetch available inventory items for the "Quick Allocate" modal
+$inventory_sql = "SELECT * FROM inventory ORDER BY item_name ASC";
+$inventory_res = mysqli_query($conn, $inventory_sql);
+$inventory_items = [];
+while($row = mysqli_fetch_assoc($inventory_res)) {
+    $inventory_items[] = $row;
 }
 
 mysqli_close($conn);
@@ -138,6 +155,7 @@ mysqli_close($conn);
                                         <tr class="bg-white text-gray-400 text-xs uppercase tracking-wider border-b border-gray-100">
                                             <th class="p-4 font-bold">Room Details</th>
                                             <th class="p-4 font-bold">Capacity</th>
+                                            <th class="p-4 font-bold">Room Assets</th>
                                             <th class="p-4 font-bold">Status</th>
                                             <th class="p-4 font-bold text-right">Actions</th>
                                         </tr>
@@ -162,6 +180,28 @@ mysqli_close($conn);
                                                     </div>
                                                 </td>
                                                 <td class="p-4">
+                                                    <?php if($r['asset_summary']): ?>
+                                                        <div class="flex flex-wrap gap-1.5 max-w-[200px]">
+                                                            <?php 
+                                                            $assets = explode(', ', $r['asset_summary']);
+                                                            foreach($assets as $asset): 
+                                                                $icon = 'package';
+                                                                if(stripos($asset, 'fan') !== false) $icon = 'fan';
+                                                                if(stripos($asset, 'bed') !== false) $icon = 'bed';
+                                                                if(stripos($asset, 'chair') !== false) $icon = 'armchair';
+                                                            ?>
+                                                                <span class="inline-flex items-center gap-1 bg-gray-100 text-gray-600 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-tight border border-gray-200">
+                                                                    <i data-lucide="<?php echo $icon; ?>" class="w-3 h-3 text-gray-400"></i>
+                                                                    <?php echo htmlspecialchars($asset); ?>
+                                                                </span>
+                                                            <?php endforeach; ?>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <span class="text-[10px] font-bold text-gray-300 italic">No assets allocated</span>
+                                                    <?php endif; ?>
+                                                </td>
+
+                                                <td class="p-4">
                                                     <?php 
                                                         $stat = $r['status'];
                                                         if($stat == 'available') echo '<span class="bg-success/10 text-success border border-success/20 px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-widest">Available</span>';
@@ -171,13 +211,22 @@ mysqli_close($conn);
                                                 </td>
                                                 <td class="p-4 text-right">
                                                     <div class="flex justify-end gap-2">
-                                                        <a href="room_inventory.php?room_id=<?php echo $r['id']; ?>" class="p-1.5 text-gray-400 hover:text-primary transition bg-gray-50 hover:bg-green-50 rounded" title="Manage Inventory">
+                                                        <button onclick="openQuickAllocate(<?php echo $r['id']; ?>, '<?php echo $r['block_name'] . ' Rm ' . $r['room_number']; ?>')" 
+                                                                class="p-1.5 text-primary hover:bg-green-50 rounded border border-transparent hover:border-green-100 transition" title="Quick Assets">
+                                                            <i data-lucide="zap" class="w-4 h-4"></i>
+                                                        </button>
+                                                        <a href="room_inventory.php?room_id=<?php echo $r['id']; ?>" class="p-1.5 text-gray-400 hover:text-primary transition bg-gray-50 hover:bg-green-50 rounded" title="Detailed Inventory">
                                                             <i data-lucide="briefcase" class="w-4 h-4"></i>
                                                         </a>
-                                                        <button class="p-1.5 text-gray-400 hover:text-primary transition bg-gray-50 hover:bg-green-50 rounded"><i data-lucide="edit" class="w-4 h-4"></i></button>
-                                                        <form action="../actions/delete_room_action.php" method="POST" class="inline" onsubmit="return confirm('Are you sure? This action is highly destructive and will delete associated allocations.');">
+                                                        <button onclick="openEditModal(<?php echo htmlspecialchars(json_encode($r)); ?>)" 
+                                                                class="p-1.5 text-gray-400 hover:text-primary transition bg-gray-50 hover:bg-green-50 rounded" title="Edit Room">
+                                                            <i data-lucide="edit" class="w-4 h-4"></i>
+                                                        </button>
+                                                        <form action="../actions/delete_room_action.php" method="POST" class="inline" onsubmit="return confirm('WARNING: Are you sure? This will delete Room <?php echo $r['room_number']; ?> and ALL associated data (allocations & assets). This cannot be undone!');">
                                                             <input type="hidden" name="room_id" value="<?php echo $r['id']; ?>">
-                                                            <button type="submit" class="p-1.5 text-gray-400 hover:text-danger transition bg-gray-50 hover:bg-red-50 rounded"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                                            <button type="submit" class="p-1.5 text-gray-400 hover:text-danger transition bg-gray-50 hover:bg-red-50 rounded" title="Delete Room">
+                                                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                                            </button>
                                                         </form>
                                                     </div>
                                                 </td>
@@ -194,10 +243,153 @@ mysqli_close($conn);
         </div>
     </main>
 
+    <!-- Edit Room Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm transition-all duration-300">
+        <div class="bg-white rounded-[2.5rem] w-full max-w-lg p-10 animate__animated animate__fadeInUp animate__faster shadow-2xl border border-gray-100 overflow-hidden relative">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/5 rounded-full"></div>
+            
+            <div class="flex justify-between items-center mb-8 relative z-10">
+                <div>
+                    <h2 class="text-3xl font-black text-dark tracking-tighter">Edit Room Detail</h2>
+                    <p class="text-xs text-primary font-black uppercase tracking-widest mt-1">Updating Property Records</p>
+                </div>
+                <button onclick="closeEditModal()" class="text-gray-400 hover:text-dark transition p-2 hover:bg-gray-100 rounded-xl"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            
+            <form action="../actions/edit_room_action.php" method="POST" class="space-y-6 relative z-10">
+                <input type="hidden" name="room_id" id="edit_room_id">
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Block Name</label>
+                        <input type="text" name="block_name" id="edit_block_name" required 
+                               class="w-full px-5 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Room Number</label>
+                        <input type="text" name="room_number" id="edit_room_number" required 
+                               class="w-full px-5 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Bed Capacity</label>
+                        <input type="number" name="capacity" id="edit_capacity" required min="1" max="10"
+                               class="w-full px-5 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Room Type</label>
+                        <select name="room_type" id="edit_room_type" class="w-full px-5 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark">
+                            <option value="Standard">Standard</option>
+                            <option value="Premium">Premium</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="pt-6 flex gap-4">
+                    <button type="button" onclick="closeEditModal()" class="flex-1 bg-gray-100 text-gray-500 font-bold py-4 rounded-2xl transition hover:bg-gray-200">Discard Changes</button>
+                    <button type="submit" class="flex-1 bg-dark hover:bg-gray-800 text-white font-black py-4 rounded-2xl transition shadow-lg active:scale-95">Save Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quick Allocate Modal -->
+    <div id="allocateModal" class="fixed inset-0 bg-black/50 z-[100] hidden items-center justify-center p-4 backdrop-blur-sm transition-all">
+        <div class="bg-white rounded-3xl w-full max-w-md p-8 animate__animated animate__zoomIn animate__faster border-4 border-primary/20 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-black text-dark tracking-tighter">Quick Asset Allocation</h2>
+                    <p id="modal_room_info" class="text-xs text-primary font-black uppercase tracking-widest">Room 101 - Block A</p>
+                </div>
+                <button onclick="closeQuickAllocate()" class="text-gray-400 hover:text-dark transition p-2"><i data-lucide="x" class="w-6 h-6"></i></button>
+            </div>
+            
+            <form action="../actions/quick_allocate_action.php" method="POST" class="space-y-6">
+                <input type="hidden" name="room_id" id="modal_room_id">
+                
+                <div>
+                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Select Inventory Asset</label>
+                    <select name="item_id" required class="w-full px-5 py-4 rounded-2xl border-2 border-gray-100 bg-gray-50 focus:bg-white focus:border-primary outline-none transition-all font-bold text-dark">
+                        <option value="">-- Choose Asset --</option>
+                        <?php foreach($inventory_items as $item): ?>
+                            <option value="<?php echo $item['id']; ?>"><?php echo htmlspecialchars($item['item_name']); ?> (Category: <?php echo $item['category']; ?>)</option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Quantity to Allocate</label>
+                    <div class="flex items-center gap-4">
+                        <button type="button" onclick="adjustQty(-1)" class="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center text-xl font-bold hover:bg-gray-200 transition">-</button>
+                        <input type="number" name="quantity" id="alloc_qty" value="1" min="1" required class="flex-1 px-5 py-4 rounded-2xl border-2 border-gray-100 bg-gray-50 text-center font-black text-2xl outline-none focus:border-primary transition-all">
+                        <button type="button" onclick="adjustQty(1)" class="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center text-xl font-bold hover:bg-gray-200 transition">+</button>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex gap-4">
+                    <button type="button" onclick="closeQuickAllocate()" class="flex-1 bg-gray-100 text-gray-500 font-bold py-4 rounded-2xl transition hover:bg-gray-200">Cancel</button>
+                    <button type="submit" class="flex-1 bg-primary hover:bg-green-700 text-white font-black py-4 rounded-2xl transition shadow-lg shadow-green-500/20 active:scale-95">Allocate Asset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         lucide.createIcons();
         document.addEventListener("DOMContentLoaded", () => {
             <?php echo $alertScript; ?>
+        });
+
+        // Quick Allocate Logic
+        const modal = document.getElementById('allocateModal');
+        const roomIdInput = document.getElementById('modal_room_id');
+        const roomInfoText = document.getElementById('modal_room_info');
+        const qtyInput = document.getElementById('alloc_qty');
+
+        function openQuickAllocate(id, info) {
+            roomIdInput.value = id;
+            roomInfoText.textContent = info;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            qtyInput.value = 1;
+        }
+
+        function closeQuickAllocate() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function adjustQty(amount) {
+            let val = parseInt(qtyInput.value);
+            val = isNaN(val) ? 1 : val + amount;
+            if(val < 1) val = 1;
+            qtyInput.value = val;
+        }
+
+        // Edit Room Modal Logic
+        const editModal = document.getElementById('editModal');
+        
+        function openEditModal(room) {
+            document.getElementById('edit_room_id').value = room.id;
+            document.getElementById('edit_block_name').value = room.block_name;
+            document.getElementById('edit_room_number').value = room.room_number;
+            document.getElementById('edit_capacity').value = room.capacity;
+            document.getElementById('edit_room_type').value = room.room_type;
+            
+            editModal.classList.remove('hidden');
+            editModal.classList.add('flex');
+        }
+
+        function closeEditModal() {
+            editModal.classList.add('hidden');
+            editModal.classList.remove('flex');
+        }
+
+        // Close on backdrop click
+        editModal.addEventListener('click', (e) => {
+            if(e.target === editModal) closeEditModal();
         });
     </script>
 </body>
