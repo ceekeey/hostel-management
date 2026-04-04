@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // 2. Check if student already has a pending or approved application
-    $check_sql = "SELECT id FROM applications WHERE student_id = ?";
+    $check_sql = "SELECT id FROM applications WHERE student_id = ? AND (status = 'pending' OR status = 'approved')";
     $check_stmt = mysqli_stmt_init($conn);
     mysqli_stmt_prepare($check_stmt, $check_sql);
     mysqli_stmt_bind_param($check_stmt, "i", $user_id);

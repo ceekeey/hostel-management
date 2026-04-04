@@ -46,7 +46,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Room - HostelSys</title>
+    <title>My Room - Hostelio</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
@@ -135,7 +135,7 @@ mysqli_close($conn);
                         <div class="mt-8 md:mt-0 flex flex-col items-center">
                             <div class="w-32 h-32 bg-white rounded-2xl p-4 shadow-lg flex items-center justify-center transform hover:scale-105 transition">
                                 <!-- Placeholder QR Code for 'Digital Key' -->
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=HostelSys-Alloc-<?php echo $allocation['id']; ?>&bgcolor=ffffff&color=212529" alt="Room QR Code" class="w-full h-full object-contain mix-blend-multiply">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Hostelio-Alloc-<?php echo $allocation['id']; ?>&bgcolor=ffffff&color=212529" alt="Room QR Code" class="w-full h-full object-contain mix-blend-multiply">
                             </div>
                             <p class="text-green-200 text-xs font-semibold mt-4 tracking-widest uppercase text-center">Scan to verify<br>at security point</p>
                         </div>

@@ -15,7 +15,7 @@ $nav_items = [
 <!-- 1. Sidebar Navigation (Desktop) -->
 <aside class="w-72 bg-gray-900 shadow-xl hidden lg:flex flex-col h-full border-r border-gray-800 relative z-20">
     <div class="h-20 flex items-center px-8 border-b border-gray-800">
-        <a href="../index.php" class="text-3xl font-bold text-primary tracking-tight">Hostel<span class="text-white">Sys</span></a>
+        <a href="../index.php" class="text-3xl font-bold text-primary tracking-tight">Hostel<span class="text-white">io</span></a>
     </div>
     <nav class="flex-1 py-8 px-5 space-y-2 overflow-y-auto no-scrollbar">
         <h4 class="px-3 text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Main Menu</h4>
@@ -39,7 +39,7 @@ $nav_items = [
 <!-- Mobile Sidebar Drawer -->
 <aside id="mobile-sidebar" class="fixed top-0 left-0 w-80 h-full bg-gray-900 z-40 lg:hidden -translate-x-full shadow-2xl flex flex-col transition-transform duration-300">
     <div class="h-20 flex items-center justify-between px-8 border-b border-gray-800">
-        <a href="../index.php" class="text-3xl font-bold text-primary tracking-tight">Hostel<span class="text-white">Sys</span></a>
+        <a href="../index.php" class="text-3xl font-bold text-primary tracking-tight">Hostel<span class="text-white">io</span></a>
         <button id="close-sidebar" class="text-gray-400 p-2 hover:bg-gray-800 rounded-lg"><i data-lucide="x" class="w-6 h-6"></i></button>
     </div>
     <nav class="flex-1 py-10 px-6 space-y-3">

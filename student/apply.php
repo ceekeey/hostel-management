@@ -42,7 +42,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply for Hostel - HostelSys</title>
+    <title>Apply for Hostel - Hostelio</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
@@ -109,20 +109,18 @@ mysqli_close($conn);
 
             <div class="max-w-3xl mx-auto">
                 
-                <?php if ($existing_app): ?>
+                <?php if ($existing_app && $existing_app['status'] != 'rejected'): ?>
                     
-                    <!-- Has Already Applied -->
+                    <!-- Has Already Applied (Pending or Approved) -->
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
                         <div class="w-20 h-20 mx-auto rounded-full 
                             <?php 
                                 if($existing_app['status'] == 'pending') echo 'bg-warning/20 text-warning';
                                 else if($existing_app['status'] == 'approved') echo 'bg-success/20 text-success';
-                                else echo 'bg-danger/20 text-danger';
                             ?> flex items-center justify-center mb-6">
                             <?php 
                                 if($existing_app['status'] == 'pending') echo '<i data-lucide="clock" class="w-10 h-10"></i>';
                                 else if($existing_app['status'] == 'approved') echo '<i data-lucide="check-circle" class="w-10 h-10"></i>';
-                                else echo '<i data-lucide="x-circle" class="w-10 h-10"></i>';
                             ?>
                         </div>
                         <h2 class="text-3xl font-bold text-dark mb-4">Application <?php echo ucfirst($existing_app['status']); ?></h2>
@@ -133,8 +131,6 @@ mysqli_close($conn);
                                 <?php echo htmlspecialchars($existing_app['preferred_block']); ?> is currently being reviewed by the administration.
                             <?php elseif($existing_app['status'] == 'approved'): ?>
                                 Congratulations! Your application was approved. Please proceed to checking your room allocation and making payment.
-                            <?php else: ?>
-                                Unfortunately, your application was rejected. Please contact the Dean of Students office for more information.
                             <?php endif; ?>
                         </p>
                         
@@ -146,12 +142,28 @@ mysqli_close($conn);
                     </div>
 
                 <?php else: ?>
+                    
+                    <!-- Form Area (Shown if No App OR Rejected App) -->
+                    <div id="form-container">
+                        
+                        <?php if ($existing_app && $existing_app['status'] == 'rejected'): ?>
+                            <!-- Rejection Notice -->
+                            <div class="bg-red-50 border border-red-100 rounded-2xl p-8 mb-8 text-center animate__animated animate__shakeX">
+                                <div class="w-16 h-16 mx-auto rounded-full bg-danger/20 text-danger flex items-center justify-center mb-4">
+                                    <i data-lucide="x-circle" class="w-8 h-8"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-danger mb-2">Previous Application Rejected</h3>
+                                <p class="text-gray-600 mb-6 text-sm">Unfortunately, your previous request was not successful. However, you are welcome to submit a **new** application below for reconsiderations or different preferences.</p>
+                                <div class="w-12 h-1 bg-red-200 mx-auto rounded-full"></div>
+                            </div>
+                        <?php endif; ?>
 
-                    <!-- First Time Applying -->
-                    <div class="mb-8">
-                        <h2 class="text-3xl font-bold text-dark mb-2 tracking-tight">Request an Accommodation</h2>
-                        <p class="text-gray-500 font-medium">Please select your preferences below. Applications are subject to administrative review and availability.</p>
-                    </div>
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-dark mb-2 tracking-tight">
+                                <?php echo ($existing_app && $existing_app['status'] == 'rejected') ? 'Submit New Application' : 'Request an Accommodation'; ?>
+                            </h2>
+                            <p class="text-gray-500 font-medium">Please select your preferences below. Applications are subject to administrative review and availability.</p>
+                        </div>
 
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                         <form action="../actions/apply_action.php" method="POST" id="appForm" class="p-8">
@@ -198,6 +210,7 @@ mysqli_close($conn);
                             </div>
                         </form>
                     </div>
+                </div>
 
                 <?php endif; ?>
 

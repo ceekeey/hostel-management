@@ -13,7 +13,7 @@
                 <a href="<?php echo $base_url; ?>/index.php" class="flex items-center gap-2 mb-6 group">
                     <img src="<?php echo $base_url; ?>/logo.png" alt="Logo" class="h-10 w-auto">
                     <span class="text-2xl font-bold text-white tracking-tight">
-                        Hostel<span class="text-primary">Sys</span>
+                        Hoste<span class="text-primary">lio</span>
                     </span>
                 </a>
                 <p class="text-gray-400 leading-relaxed mb-6 font-medium">
@@ -24,19 +24,19 @@
                 <div class="flex items-center gap-4">
                     <a href="#"
                         class="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-primary/20">
-                        <i data-lucide="facebook" class="w-5 h-5"></i>
+                        <i class="fa-brands fa-facebook-f text-lg"></i>
                     </a>
                     <a href="#"
                         class="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-primary/20">
-                        <i data-lucide="twitter" class="w-5 h-5"></i>
+                        <i class="fa-brands fa-twitter text-lg"></i>
                     </a>
                     <a href="#"
                         class="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-primary/20">
-                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                        <i class="fa-brands fa-instagram text-lg"></i>
                     </a>
                     <a href="#"
                         class="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-primary/20">
-                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        <i class="fa-brands fa-linkedin-in text-lg"></i>
                     </a>
                 </div>
             </div>
@@ -51,32 +51,32 @@
                     <li>
                         <a href="<?php echo $base_url; ?>/index.php"
                             class="text-gray-400 hover:text-primary transition-colors flex items-center gap-2 group">
-                            <i data-lucide="chevron-right"
-                                class="w-4 h-4 opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0 transition-all"></i>
+                            <i
+                                class="fa-solid fa-chevron-right text-sm opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0 transition-all"></i>
                             Home
                         </a>
                     </li>
                     <li>
                         <a href="#"
                             class="text-gray-400 hover:text-primary transition-colors flex items-center gap-2 group">
-                            <i data-lucide="chevron-right"
-                                class="w-4 h-4 opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0 transition-all"></i>
+                            <i
+                                class="fa-solid fa-chevron-right text-sm opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0 transition-all"></i>
                             About Our Hostels
                         </a>
                     </li>
                     <li>
                         <a href="<?php echo $base_url; ?>/public/register.php"
                             class="text-gray-400 hover:text-primary transition-colors flex items-center gap-2 group">
-                            <i data-lucide="chevron-right"
-                                class="w-4 h-4 opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0 transition-all"></i>
+                            <i
+                                class="fa-solid fa-chevron-right text-sm opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0 transition-all"></i>
                             Apply for Room
                         </a>
                     </li>
                     <li>
                         <a href="#"
                             class="text-gray-400 hover:text-primary transition-colors flex items-center gap-2 group">
-                            <i data-lucide="chevron-right"
-                                class="w-4 h-4 opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0 transition-all"></i>
+                            <i
+                                class="fa-solid fa-chevron-right text-sm opacity-0 group-hover:opacity-100 -ml-4 group-hover:ml-0 transition-all"></i>
                             Support Center
                         </a>
                     </li>
@@ -93,28 +93,28 @@
                     <li class="flex items-start gap-4 group">
                         <div
                             class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                            <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            <i class="fa-solid fa-location-dot text-lg"></i>
                         </div>
                         <p class="text-gray-400 text-sm leading-relaxed pt-1">
-                            123 Campus Drive, University City,<br>Sector 7-B, Education Square
+                            123 Campus, Gombe State University,<br>Gombe State, Nigeria
                         </p>
                     </li>
                     <li class="flex items-center gap-4 group">
                         <div
                             class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                            <i data-lucide="mail" class="w-5 h-5"></i>
+                            <i class="fa-solid fa-envelope text-lg"></i>
                         </div>
-                        <a href="mailto:support@hostelsys.com"
+                        <a href="mailto:akramkwairanga@gmail.com"
                             class="text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                            support@hostelsys.com
+                            akramkwairanga@gmail.com
                         </a>
                     </li>
                     <li class="flex items-center gap-4 group">
                         <div
                             class="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-all">
-                            <i data-lucide="phone" class="w-5 h-5"></i>
+                            <i class="fa-solid fa-phone text-lg"></i>
                         </div>
-                        <span class="text-gray-400 text-sm font-medium">+234 567 8900</span>
+                        <span class="text-gray-400 text-sm font-medium">+2349164689094</span>
                     </li>
                 </ul>
             </div>

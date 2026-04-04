@@ -30,7 +30,7 @@ unset($_SESSION['old_login']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Hostel Management System</title>
+    <title>Login - Hostelio</title>
 
     <!-- Google Font: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -70,7 +70,7 @@ unset($_SESSION['old_login']);
         }
 
         .bg-image {
-            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-image: url('../1a.jpg');
             background-size: cover;
             background-position: center;
         }
@@ -108,7 +108,7 @@ unset($_SESSION['old_login']);
 
             <div class="text-center mb-10">
                 <a href="../index.php" class="text-3xl font-bold text-primary tracking-tight inline-block mb-2">
-                    Hostel<span class="text-dark">Sys</span>
+                    Hostel<span class="text-dark">io</span>
                 </a>
                 <h2 class="text-2xl font-bold text-dark mt-4">Sign in to your account</h2>
                 <p class="text-gray-500 mt-2">Please enter your credentials to continue.</p>

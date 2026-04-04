@@ -92,11 +92,16 @@ require_once '../includes/header.php';
                 <label for="faculty">Faculty</label>
                 <select name="faculty" id="faculty" required>
                     <option value="" disabled selected>Select Your Faculty</option>
-                    <option value="Science">Science</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Arts">Arts</option>
-                    <option value="Business">Business</option>
-                    <option value="Medicine">Medicine</option>
+                    <option value="Faculty of Arts & Social Sciences">Faculty of Arts & Social Sciences</option>
+                    <option value="Faculty of Education">Faculty of Education</option>
+                    <option value="Faculty of Science">Faculty of Science</option>
+                    <option value="Faculty of Law">Faculty of Law</option>
+                    <option value="Faculty of Pharmaceutical Sciences">Faculty of Pharmaceutical Sciences</option>
+                    <option value="Faculty of Environmental Sciences">Faculty of Environmental Sciences</option>
+                    <option value="Faculty of Agriculture">Faculty of Agriculture</option>
+                    <option value="Faculty of Medical Sciences">Faculty of Medical Sciences</option>
+                    <option value="Faculty of Basic Clinical Sciences">Faculty of Basic Clinical Sciences</option>
+                    <option value="Faculty of Clinical Sciences">Faculty of Clinical Sciences</option>
                 </select>
             </div>
             

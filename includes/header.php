@@ -17,7 +17,7 @@ if(!defined('BASE_URL')) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel Management System</title>
+    <title>Hostelio - Management System</title>
 
     <!-- Google Font: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -26,6 +26,7 @@ if(!defined('BASE_URL')) {
     <!-- Tailwind CSS (via CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
@@ -55,7 +56,7 @@ if(!defined('BASE_URL')) {
                     <a href="<?php echo $base_url; ?>/index.php" class="flex items-center gap-2 group">
                         <img src="<?php echo $base_url; ?>/logo.png" alt="Logo" class="h-10 w-auto">
                         <span class="text-2xl font-bold text-primary tracking-tight hidden sm:block">
-                            Hostel<span class="text-dark">Sys</span>
+                            Hostel<span class="text-dark">io</span>
                         </span>
                     </a>
                 </div>
